@@ -1,0 +1,27 @@
+<ion-content class="ion-padding">
+  <div class="mainDiv">
+    <ion-title class="name">Welcome Name</ion-title>
+    <img class="profile" src="https://img.icons8.com/?size=500&id=23240&format=png&color=000000" alt="Profile">
+    <ion-title>Employee ID: EMP12345</ion-title>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title><ion-icon name="refresh" (click)="getLocaleDirection()"></ion-icon> Location <ion-icon
+            name="location"></ion-icon></ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button>Check In</ion-button>
+        <ion-grid>
+          <ion-row class="date">{{ Date }}</ion-row>
+          <ion-row style="padding-top: 10px;">
+            <ion-col class="head">Last Check In:</ion-col>
+            <ion-col class="value">10:00 AM</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="head">Last Check Out:</ion-col>
+            <ion-col class="value">06:00 PM</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

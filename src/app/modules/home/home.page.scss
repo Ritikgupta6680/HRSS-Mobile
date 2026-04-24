@@ -1,0 +1,111 @@
+.mainDiv {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+ion-button {
+    margin: 20px;
+    --border-radius: 50% !important;
+    width: 100px;
+    height: 100px;
+    font-size: 16px;
+    font-weight: 700;
+    --background: #0044ff;
+    color: #fff;
+    position: relative;
+    overflow: visible;
+}
+
+/* Neon waving border */
+ion-button::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: linear-gradient(90deg,
+            #006eff,
+            #2200cc,
+            #0037ff,
+            #2c00cc);
+    background-size: 300% 300%;
+    animation: neonWave 4s linear infinite;
+    filter: blur(6px);
+    z-index: -1;
+}
+
+/* Sharp inner border */
+ion-button::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    border: 2px solid #00ff88;
+    box-shadow: 0 0 12px #00ddff;
+}
+
+/* Spark effect on click */
+ion-button:active::before {
+    animation: sparkBurst 0.4s ease-out;
+    filter: blur(2px);
+}
+
+@keyframes neonWave {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
+
+@keyframes sparkBurst {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.4);
+    }
+}
+
+.profile {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+ion-card {
+    margin: 30px 0;
+    padding: 20px 10px;
+    box-shadow: 0 0 15px rgba(176, 176, 176, 0.6);
+    border-radius: 20px;
+}
+
+.date {
+    width: 100%;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px;
+    text-align: center;
+    justify-content: center;
+}
+
+.head {
+    font-size: 16px;
+    font-weight: 700;
+    text-align: start;
+}
+
+.value {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: end;
+}
+
+.name {
+    font-size: 26px;
+    font-weight: 700;
+}

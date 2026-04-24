@@ -1,0 +1,7 @@
+{
+  "name": "HRSS",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

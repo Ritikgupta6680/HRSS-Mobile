@@ -1,0 +1,17 @@
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item>
+      <ion-label>Dark Mode</ion-label>
+      <ion-toggle slot="end" [(ngModel)]="isDark" (ionChange)="onToggle()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Language</ion-label>
+      <ion-select slot="end" interface="popover" [(ngModel)]="selectedLanguage" (ionChange)="onLanguageChange($event)">
+        <ion-select-option value="en">English</ion-select-option>
+        <ion-select-option value="es">Spanish</ion-select-option>
+        <ion-select-option value="fr">French</ion-select-option>
+        <ion-select-option value="hi">Hindi</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+</ion-content>
