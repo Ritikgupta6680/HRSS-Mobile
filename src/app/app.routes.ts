@@ -27,10 +27,25 @@ export const routes: Routes = [
         loadComponent: () => import('./modules/home/home.page').then(m => m.HomePage)
       },
       {
+        path: 'leaves',
+        loadComponent: () => import('./modules/leaves/leaves.page').then(m => m.LeavesPage)
+      },
+      {
+        path: 'announcements',
+        loadComponent: () => import('./modules/announcements/announcements.page').then(m => m.AnnouncementsPage)
+      },
+      {
+        path: 'holidays',
+        loadComponent: () => import('./modules/holidays/holidays.page').then(m => m.HolidaysPage)
+      },
+      {
         path: 'setting',
         loadComponent: () => import('./modules/setting/setting.page').then(m => m.SettingPage)
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: 'login'
   }
-
 ];

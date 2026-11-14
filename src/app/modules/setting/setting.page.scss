@@ -1,0 +1,98 @@
+.mobile-settings-content {
+  --background: #f8fafc;
+  padding: 16px;
+
+  .user-profile-header {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    margin: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+
+    .profile-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: #ffffff;
+      font-size: 1.4rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+    }
+
+    .profile-details {
+      h2 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0 0 4px;
+      }
+      .company-name {
+        font-size: 0.8rem;
+        color: #64748b;
+        margin: 4px 0 0;
+      }
+    }
+  }
+
+  .card-group {
+    margin: 0 12px 16px;
+    .group-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #64748b;
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .info-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.86rem;
+      .k { color: #64748b; }
+      .v { color: #0f172a; font-weight: 600; }
+    }
+  }
+
+  .preferences-list {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    padding: 0;
+
+    ion-item {
+      --background: #ffffff;
+      font-size: 0.9rem;
+      ion-icon {
+        color: #64748b;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .logout-wrap {
+    margin: 24px 12px;
+    ion-button {
+      --border-radius: 10px;
+      font-weight: 600;
+    }
+  }
+}

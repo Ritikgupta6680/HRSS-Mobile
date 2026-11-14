@@ -1,32 +1,77 @@
-import { Component, OnInit } from '@angular/core';
-
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonMenu, IonMenuToggle, IonItem, IonList, IonButtons, IonButton, IonIcon, IonRouterOutlet, IonFooter } from '@ionic/angular/standalone';
-import { menu, home, settings, logOut } from 'ionicons/icons';
-import { addIcons } from 'ionicons';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-
-addIcons({
-  menu,
-  home,
-  settings,
-  'log-out': logOut
-});
+import {
+  IonMenu,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonList,
+  IonItem,
+  IonIcon,
+  IonButtons,
+  IonMenuToggle,
+  IonButton,
+  IonFooter,
+  IonRouterOutlet
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import {
+  homeOutline,
+  calendarOutline,
+  megaphoneOutline,
+  sparklesOutline,
+  settingsOutline,
+  logOutOutline,
+  menuOutline
+} from 'ionicons/icons';
+import { DataService } from '../services/data/data';
+import { Auth } from '../services/auth/auth';
 
 @Component({
   selector: 'app-modules',
   templateUrl: './modules.page.html',
   styleUrls: ['./modules.page.scss'],
   standalone: true,
-  imports: [IonRouterOutlet, RouterLink, RouterLinkActive, IonIcon, IonButton, IonButtons, IonList, IonItem, IonMenu, IonMenuToggle, IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonFooter]
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    IonMenu,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonList,
+    IonItem,
+    IonIcon,
+    IonButtons,
+    IonMenuToggle,
+    IonButton,
+    IonFooter,
+    IonRouterOutlet
+  ]
 })
-export class ModulesPage implements OnInit {
+export class ModulesPage {
+  public readonly dataService = inject(DataService);
+  private readonly auth = inject(Auth);
+
+  readonly user = this.dataService.user;
 
   constructor() {
-    addIcons({ home, settings, logOut, menu });
+    addIcons({
+      homeOutline,
+      calendarOutline,
+      megaphoneOutline,
+      sparklesOutline,
+      settingsOutline,
+      logOutOutline,
+      menuOutline
+    });
   }
 
-  ngOnInit() {
+  logout() {
+    this.auth.logout();
   }
-
 }

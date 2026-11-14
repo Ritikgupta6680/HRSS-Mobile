@@ -10,7 +10,6 @@ const USER_DETAILS_KEY = 'hrss-web.user-details';
   providedIn: 'root',
 })
 export class StorageService {
-
   constructor(private cookieService: CookieService) { }
 
   getToken(): string | null {
@@ -31,11 +30,7 @@ export class StorageService {
 
   getUserId<T>(): T | null {
     const raw = this.read(USER_KEY);
-
-    if (!raw) {
-      return null;
-    }
-
+    if (!raw) return null;
     try {
       return JSON.parse(raw) as T;
     } catch {
@@ -45,11 +40,7 @@ export class StorageService {
 
   getUser<T>(): T | null {
     const raw = this.read(USER_DETAILS_KEY);
-
-    if (!raw) {
-      return null;
-    }
-
+    if (!raw) return null;
     try {
       return JSON.parse(raw) as T;
     } catch {
@@ -74,35 +65,51 @@ export class StorageService {
 
   private read(key: string): string | null {
     try {
-      return this.cookieService.check(key)
-        ? this.cookieService.get(key)
-        : null;
-    } catch {
-      return null;
-    }
+      if (this.cookieService.check(key)) {
+        const val = this.cookieService.get(key);
+        if (val) return val;
+      }
+    } catch { }
+
+    try {
+      if (typeof localStorage !== 'undefined') {
+        return localStorage.getItem(key);
+      }
+    } catch { }
+
+    return null;
   }
 
   private write(key: string, value: string): void {
+    const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
     try {
       this.cookieService.set(
         key,
         value,
-        7,          // Expiry in days
-        '/',        // Path
-        undefined,  // Domain
-        true,       // Secure (HTTPS only)
-        'Lax'       // SameSite
+        7,
+        '/',
+        undefined,
+        isHttps,
+        'Lax'
       );
-    } catch {
-      // Ignore errors
-    }
+    } catch { }
+
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(key, value);
+      }
+    } catch { }
   }
 
   private remove(key: string): void {
     try {
       this.cookieService.delete(key, '/');
-    } catch {
-      // Ignore errors
-    }
+    } catch { }
+
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem(key);
+      }
+    } catch { }
   }
 }

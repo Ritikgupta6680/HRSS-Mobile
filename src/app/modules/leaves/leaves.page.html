@@ -1,0 +1,98 @@
+<ion-content class="mobile-page-content">
+  <div class="page-top-action">
+    <div>
+      <h1 class="page-title">My Leaves</h1>
+      <p class="page-subtitle">Track requests and apply for time off</p>
+    </div>
+    <ion-button size="small" color="primary" (click)="openApplyModal()">
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon> Apply
+    </ion-button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <span>Loading leaves...</span>
+    </div>
+  } @else if (myLeaves().length === 0) {
+    <div class="empty-state">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <h3>No Leave Requests</h3>
+      <p>You have not submitted any leave requests yet.</p>
+      <ion-button color="primary" fill="outline" (click)="openApplyModal()">
+        Apply Now
+      </ion-button>
+    </div>
+  } @else {
+    <div class="leaves-card-list">
+      @for (item of myLeaves(); track item.id) {
+        <div class="leave-item-card">
+          <div class="card-head">
+            <span class="leave-badge">{{ item.leaveType }}</span>
+            <ion-badge [color]="getStatusBadgeColor(item.status)">{{ item.status }}</ion-badge>
+          </div>
+          <div class="date-row">
+            <span>{{ item.fromDate | date:'mediumDate' }} → {{ item.toDate | date:'mediumDate' }}</span>
+            <span class="days-count">({{ item.totalDays || 1 }} days)</span>
+          </div>
+          <div class="reason-text">{{ item.reason }}</div>
+          @if ((item.status || '').toLowerCase() === 'pending') {
+            <div class="action-row">
+              <ion-button size="small" fill="clear" color="danger" (click)="cancelLeave(item.id)">
+                Cancel Request
+              </ion-button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Apply Modal -->
+  <ion-modal [isOpen]="isModalOpen()" (didDismiss)="closeModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Apply for Leave</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <div class="modal-form-content">
+        @if (formError()) {
+          <div class="error-box">{{ formError() }}</div>
+        }
+        <div class="form-group">
+          <label>Leave Type</label>
+          <select [(ngModel)]="leaveType" class="input-ctrl">
+            <option value="Casual">Casual Leave</option>
+            <option value="Sick">Sick Leave</option>
+            <option value="Earned">Earned / Annual Leave</option>
+            <option value="Unpaid">Unpaid Leave</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>From Date</label>
+          <input type="date" [(ngModel)]="fromDate" class="input-ctrl" />
+        </div>
+        <div class="form-group">
+          <label>To Date</label>
+          <input type="date" [(ngModel)]="toDate" class="input-ctrl" />
+        </div>
+        <div class="form-group">
+          <label>Reason</label>
+          <textarea rows="3" [(ngModel)]="reason" class="input-ctrl" placeholder="Provide reason..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <ion-button fill="outline" color="medium" (click)="closeModal()" [disabled]="submitting()">Cancel</ion-button>
+          <ion-button color="primary" (click)="submitLeave()" [disabled]="submitting()">
+            @if (submitting()) { <ion-spinner name="crescent"></ion-spinner> } @else { Submit }
+          </ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

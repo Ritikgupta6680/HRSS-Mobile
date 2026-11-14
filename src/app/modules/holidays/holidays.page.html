@@ -1,0 +1,39 @@
+<ion-content class="mobile-page-content">
+  <div class="page-top-action">
+    <div>
+      <h1 class="page-title">Company Holidays</h1>
+      <p class="page-subtitle">Official days off and optional holidays</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <span>Loading holidays...</span>
+    </div>
+  } @else if (holidays().length === 0) {
+    <div class="empty-state">
+      <ion-icon name="sparkles-outline"></ion-icon>
+      <h3>No Holidays Scheduled</h3>
+      <p>No holiday records found for this year.</p>
+    </div>
+  } @else {
+    <div class="holidays-list">
+      @for (item of holidays(); track item.id) {
+        <div class="holiday-card">
+          <div class="date-badge">
+            <span class="m">{{ item.date | date:'MMM' }}</span>
+            <span class="d">{{ item.date | date:'dd' }}</span>
+          </div>
+          <div class="info">
+            <div class="name">{{ item.name }}</div>
+            <div class="sub-date">{{ item.date | date:'fullDate' }}</div>
+          </div>
+          <ion-badge [color]="item.isOptional ? 'tertiary' : 'success'">
+            {{ item.isOptional ? 'Optional' : 'Official' }}
+          </ion-badge>
+        </div>
+      }
+    </div>
+  }
+</ion-content>

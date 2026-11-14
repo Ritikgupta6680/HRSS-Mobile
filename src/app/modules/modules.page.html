@@ -1,46 +1,82 @@
-<ion-menu side="start" type="push" contentId="modules-content">
-  <ion-header class="menu-header">
-    <ion-toolbar>
-      <ion-title>Welcome Name</ion-title>
-      <img class="profile" src="https://img.icons8.com/?size=500&id=23240&format=png&color=000000" alt="Profile">
-      <p>Employee ID: EMP12345</p>
-    </ion-toolbar>
+<ion-menu side="start" contentId="modules-content" class="mobile-drawer">
+  <ion-header class="drawer-header">
+    <div class="user-drawer-card">
+      <div class="drawer-avatar">
+        {{ user()?.firstName?.charAt(0) || 'U' }}
+      </div>
+      <div class="drawer-info">
+        <h3 class="name">{{ user()?.firstName || 'User' }} {{ user()?.lastName || '' }}</h3>
+        <p class="role">{{ user()?.role || 'Employee' }} • {{ user()?.company?.name || 'HRSS' }}</p>
+      </div>
+    </div>
   </ion-header>
 
-  <ion-content>
-    <ion-list>
-      <ion-menu-toggle auto-hide="true" routerLinkActive="menu-active">
-        <ion-item routerLink="home"><ion-icon name="home"></ion-icon>Home</ion-item>
+  <ion-content class="drawer-content">
+    <ion-list lines="none" class="drawer-list">
+      <ion-menu-toggle auto-hide="true">
+        <ion-item routerLink="/modules/home" routerLinkActive="active-link">
+          <ion-icon slot="start" name="home-outline"></ion-icon>
+          Home
+        </ion-item>
       </ion-menu-toggle>
-      <ion-menu-toggle auto-hide="true" routerLinkActive="menu-active">
-        <ion-item routerLink="setting"><ion-icon name="settings"></ion-icon>Settings</ion-item>
+
+      <ion-menu-toggle auto-hide="true">
+        <ion-item routerLink="/modules/leaves" routerLinkActive="active-link">
+          <ion-icon slot="start" name="calendar-outline"></ion-icon>
+          Leaves
+        </ion-item>
       </ion-menu-toggle>
-      <ion-menu-toggle auto-hide="true" routerLinkActive="menu-active">
-        <ion-item><ion-icon name="log-out"></ion-icon>Log Out</ion-item>
+
+      <ion-menu-toggle auto-hide="true">
+        <ion-item routerLink="/modules/announcements" routerLinkActive="active-link">
+          <ion-icon slot="start" name="megaphone-outline"></ion-icon>
+          Announcements
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle auto-hide="true">
+        <ion-item routerLink="/modules/holidays" routerLinkActive="active-link">
+          <ion-icon slot="start" name="sparkles-outline"></ion-icon>
+          Holidays
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle auto-hide="true">
+        <ion-item routerLink="/modules/setting" routerLinkActive="active-link">
+          <ion-icon slot="start" name="settings-outline"></ion-icon>
+          Settings
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle auto-hide="true">
+        <ion-item class="logout-link" (click)="logout()">
+          <ion-icon slot="start" name="log-out-outline"></ion-icon>
+          Sign Out
+        </ion-item>
       </ion-menu-toggle>
     </ion-list>
-
   </ion-content>
-  <ion-footer>
-    <ion-toolbar>
-      <ion-title>HRSS App v1.0.0</ion-title>
-    </ion-toolbar>
+
+  <ion-footer class="drawer-footer">
+    <span>HRSS Mobile App v2.0 • Secured</span>
   </ion-footer>
 </ion-menu>
 
-<ion-header class="header">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-toggle>
-        <ion-button>
-          <ion-icon name="menu"></ion-icon>
-        </ion-button>
-      </ion-menu-toggle>
-    </ion-buttons>
-    <img class="header-logo" src="assets/icon/logo.png" alt="Logo">
-  </ion-toolbar>
-</ion-header>
+<div class="ion-page" id="modules-content">
+  <ion-header class="app-topbar">
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-menu-toggle>
+          <ion-button>
+            <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+          </ion-button>
+        </ion-menu-toggle>
+      </ion-buttons>
+      <ion-title class="topbar-title">HRSS Mobile</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content id="modules-content">
-  <ion-router-outlet></ion-router-outlet>
-</ion-content>
+  <div class="mobile-router-wrapper">
+    <ion-router-outlet></ion-router-outlet>
+  </div>
+</div>

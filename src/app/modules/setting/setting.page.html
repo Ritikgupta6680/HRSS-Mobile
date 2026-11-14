@@ -1,17 +1,65 @@
-<ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item>
-      <ion-label>Dark Mode</ion-label>
-      <ion-toggle slot="end" [(ngModel)]="isDark" (ionChange)="onToggle()"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Language</ion-label>
-      <ion-select slot="end" interface="popover" [(ngModel)]="selectedLanguage" (ionChange)="onLanguageChange($event)">
-        <ion-select-option value="en">English</ion-select-option>
-        <ion-select-option value="es">Spanish</ion-select-option>
-        <ion-select-option value="fr">French</ion-select-option>
-        <ion-select-option value="hi">Hindi</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
+<ion-content class="mobile-settings-content">
+  <!-- Profile summary card -->
+  <div class="user-profile-header">
+    <div class="profile-avatar">
+      {{ user()?.firstName?.charAt(0) || 'U' }}
+    </div>
+    <div class="profile-details">
+      <h2>{{ user()?.firstName || 'User' }} {{ user()?.lastName || '' }}</h2>
+      <ion-badge color="primary">{{ user()?.role || 'Employee' }}</ion-badge>
+      <p class="company-name">{{ user()?.company?.name || 'HRSS Organization' }}</p>
+    </div>
+  </div>
+
+  <!-- Employment card -->
+  <div class="card-group">
+    <div class="group-title">EMPLOYMENT INFO</div>
+    <div class="info-card">
+      <div class="info-row">
+        <span class="k">Employee Code</span>
+        <span class="v">{{ user()?.employeeCode || 'EMP-001' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="k">Email</span>
+        <span class="v">{{ user()?.email || 'N/A' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="k">Phone</span>
+        <span class="v">{{ user()?.phoneNumber || 'N/A' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="k">Work Shift</span>
+        <span class="v">{{ user()?.workShift || 'General (09:00 AM - 06:00 PM)' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preferences -->
+  <div class="card-group">
+    <div class="group-title">PREFERENCES</div>
+    <ion-list class="preferences-list">
+      <ion-item>
+        <ion-icon slot="start" name="moon-outline"></ion-icon>
+        <ion-label>Dark Mode</ion-label>
+        <ion-toggle slot="end" [(ngModel)]="isDark" (ionChange)="onToggle()"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="globe-outline"></ion-icon>
+        <ion-label>Language</ion-label>
+        <ion-select slot="end" interface="popover" [(ngModel)]="selectedLanguage" (ionChange)="onLanguageChange($event)">
+          <ion-select-option value="en">English</ion-select-option>
+          <ion-select-option value="es">Spanish</ion-select-option>
+          <ion-select-option value="fr">French</ion-select-option>
+          <ion-select-option value="hi">Hindi</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Logout action -->
+  <div class="logout-wrap">
+    <ion-button expand="block" color="danger" fill="outline" (click)="logout()">
+      <ion-icon slot="start" name="log-out-outline"></ion-icon> Sign Out
+    </ion-button>
+  </div>
 </ion-content>

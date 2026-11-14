@@ -1,27 +1,129 @@
-<ion-content class="ion-padding">
-  <div class="mainDiv">
-    <ion-title class="name">Welcome Name</ion-title>
-    <img class="profile" src="https://img.icons8.com/?size=500&id=23240&format=png&color=000000" alt="Profile">
-    <ion-title>Employee ID: EMP12345</ion-title>
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title><ion-icon name="refresh" (click)="getLocaleDirection()"></ion-icon> Location <ion-icon
-            name="location"></ion-icon></ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-button>Check In</ion-button>
-        <ion-grid>
-          <ion-row class="date">{{ Date }}</ion-row>
-          <ion-row style="padding-top: 10px;">
-            <ion-col class="head">Last Check In:</ion-col>
-            <ion-col class="value">10:00 AM</ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col class="head">Last Check Out:</ion-col>
-            <ion-col class="value">06:00 PM</ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
+<ion-content class="mobile-home-content">
+  <!-- Profile Header Card -->
+  <div class="user-hero-card">
+    <div class="user-avatar">
+      {{ user()?.firstName?.charAt(0) || 'U' }}
+    </div>
+    <div class="user-meta">
+      <h2 class="greeting">Hi, {{ user()?.firstName || 'Employee' }}! 👋</h2>
+      <p class="role-badge">
+        {{ user()?.employeeCode || 'EMP-001' }} • {{ user()?.company?.name || 'HRSS Workspace' }}
+      </p>
+    </div>
   </div>
+
+  <!-- Attendance Card -->
+  <div class="clock-card">
+    <div class="card-top-bar">
+      <div class="date-tag">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <span>{{ formattedDate }}</span>
+      </div>
+      <div class="loc-tag" (click)="detectLocation()">
+        <ion-icon name="location"></ion-icon>
+        <span>{{ locationString() }}</span>
+        <ion-icon name="refresh" class="refresh-icon"></ion-icon>
+      </div>
+    </div>
+
+    <div class="status-indicator">
+      @if (isClockedIn()) {
+        <span class="badge in">Clocked In (Active)</span>
+      } @else if (todayAttendance()?.checkOutTime) {
+        <span class="badge completed">Shift Completed</span>
+      } @else {
+        <span class="badge out">Not Clocked In</span>
+      }
+    </div>
+
+    <!-- Clock Button -->
+    <div class="action-wrap">
+      <ion-button
+        expand="block"
+        [color]="isClockedIn() ? 'danger' : 'primary'"
+        [disabled]="checkingAction() || !!todayAttendance()?.checkOutTime"
+        (click)="handleAttendanceAction()"
+        class="clock-button"
+      >
+        @if (checkingAction()) {
+          <ion-spinner name="crescent"></ion-spinner>
+        } @else if (isClockedIn()) {
+          <ion-icon slot="start" name="log-out-outline"></ion-icon> Clock Out (End Shift)
+        } @else if (todayAttendance()?.checkOutTime) {
+          <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon> Completed for Today
+        } @else {
+          <ion-icon slot="start" name="log-in-outline"></ion-icon> Clock In (Start Shift)
+        }
+      </ion-button>
+    </div>
+
+    <!-- Times breakdown -->
+    <div class="time-pills-row">
+      <div class="time-box">
+        <span class="lbl">Clock In</span>
+        <span class="val">{{ todayAttendance()?.checkInTime ? (todayAttendance()?.checkInTime | date:'shortTime') : '—' }}</span>
+      </div>
+      <div class="time-box">
+        <span class="lbl">Clock Out</span>
+        <span class="val">{{ todayAttendance()?.checkOutTime ? (todayAttendance()?.checkOutTime | date:'shortTime') : '—' }}</span>
+      </div>
+      <div class="time-box">
+        <span class="lbl">Total Hours</span>
+        <span class="val">{{ todayAttendance()?.totalHours ? (todayAttendance()?.totalHours + ' hrs') : '—' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions Grid -->
+  <div class="section-title">Quick Services</div>
+  <div class="quick-grid">
+    <div class="action-card" routerLink="/modules/leaves">
+      <div class="card-icon leaves"><ion-icon name="calendar-outline"></ion-icon></div>
+      <span class="card-name">Leaves</span>
+    </div>
+    <div class="action-card" routerLink="/modules/announcements">
+      <div class="card-icon notices"><ion-icon name="megaphone-outline"></ion-icon></div>
+      <span class="card-name">Notices</span>
+    </div>
+    <div class="action-card" routerLink="/modules/holidays">
+      <div class="card-icon holidays"><ion-icon name="sparkles-outline"></ion-icon></div>
+      <span class="card-name">Holidays</span>
+    </div>
+  </div>
+
+  <!-- Announcements Preview -->
+  @if (announcements().length > 0) {
+    <div class="section-title">Latest Announcements</div>
+    <div class="notices-container">
+      @for (item of announcements(); track item.id) {
+        <div class="notice-card" routerLink="/modules/announcements">
+          <div class="notice-head">
+            <span class="tag">Notice</span>
+            <span class="date">{{ item.createdAt | date:'shortDate' }}</span>
+          </div>
+          <div class="notice-title">{{ item.title }}</div>
+          <p class="notice-preview">{{ item.description }}</p>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Holidays Preview -->
+  @if (upcomingHolidays().length > 0) {
+    <div class="section-title">Upcoming Holidays</div>
+    <div class="holidays-scroll">
+      @for (h of upcomingHolidays(); track h.id) {
+        <div class="mini-holiday-card">
+          <div class="date-col">
+            <span class="m">{{ h.date | date:'MMM' }}</span>
+            <span class="d">{{ h.date | date:'dd' }}</span>
+          </div>
+          <div class="info-col">
+            <span class="name">{{ h.name }}</span>
+            <span class="sub">{{ h.isOptional ? 'Optional' : 'Official' }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  }
 </ion-content>

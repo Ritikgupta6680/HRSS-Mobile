@@ -77,3 +77,54 @@ body.dark {
         --background: #005272;
     }
 }
+:root {
+  --app-bg: #f8fafc;
+  --app-surface: #ffffff;
+  --app-border: #e2e8f0;
+  --app-text: #0f172a;
+  --app-text-muted: #64748b;
+  --app-primary: #2563eb;
+}
+
+body.dark {
+  --app-bg: #0f172a;
+  --app-surface: #1e293b;
+  --app-border: #334155;
+  --app-text: #f8fafc;
+  --app-text-muted: #94a3b8;
+  --app-primary: #3b82f6;
+
+  --ion-background-color: #0f172a;
+  --ion-text-color: #f8fafc;
+
+  .user-hero-card,
+  .clock-card,
+  .action-card,
+  .notice-card,
+  .mini-holiday-card,
+  .leave-item-card,
+  .holiday-card,
+  .user-profile-header,
+  .info-card,
+  .preferences-list {
+    background: var(--app-surface) !important;
+    border-color: var(--app-border) !important;
+    color: var(--app-text) !important;
+  }
+
+  .time-pills-row,
+  .info-col,
+  .date-col,
+  .time-box {
+    background: #0f172a !important;
+    color: var(--app-text) !important;
+  }
+
+  h1, h2, h3, .name, .greeting, .val, .notice-title {
+    color: var(--app-text) !important;
+  }
+
+  p, .subtitle, .lbl, .role-badge, .date, .sub {
+    color: var(--app-text-muted) !important;
+  }
+}

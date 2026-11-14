@@ -33,13 +33,13 @@ export class CallService {
     options: {
       withCredentials?: boolean;
       headers?: HttpHeaders;
-    }
+    } = {}
   ): Observable<T> {
-    options.headers = this.headers();
+    const opts = { ...options, headers: this.headers() };
     return this.http.post<T>(
       this.url(path),
       body,
-      options,
+      opts,
     ).pipe(catchError((error) => this.handleError(error)));
   }
 
