@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonTitle, IonIcon, IonButton, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
 import { location, refresh } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
-import { Data } from 'src/app/services/data/data';
+import { DataService } from '../../services/data/data';
 
 addIcons({
   location,
@@ -27,7 +27,7 @@ export class HomePage implements OnInit {
     weekday: 'long'
   })
 
-  constructor(private dataService: Data) {
+  constructor(private dataService: DataService) {
     this.getLocaleDirection();
   }
 

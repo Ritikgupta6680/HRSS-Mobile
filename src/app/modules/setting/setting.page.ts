@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonToggle, IonList, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
-import { ThemeService } from '../../services/theme/theme';
-import { Data } from 'src/app/services/data/data';
+import { DataService } from '../../services/data/data';
 
 @Component({
   selector: 'app-setting',
@@ -17,10 +16,10 @@ export class SettingPage implements OnInit {
   isDark = false;
   selectedLanguage = 'en';
 
-  constructor(private data: Data) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.isDark = this.data.themeService.getTheme() === 'dark';
+    this.isDark = this.dataService.themeService.getTheme() === 'dark';
     const savedLang = localStorage.getItem('app_language');
     if (savedLang) {
       this.selectedLanguage = savedLang;
@@ -36,8 +35,8 @@ export class SettingPage implements OnInit {
   }
 
   onToggle() {
-    this.data.themeService.toggleTheme();
-    this.isDark = this.data.themeService.getTheme() === 'dark';
+    this.dataService.themeService.toggleTheme();
+    this.isDark = this.dataService.themeService.getTheme() === 'dark';
   }
 
 }
